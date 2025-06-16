@@ -39,7 +39,7 @@ export const { POST } = serve(async (context) => {
     const transcript = await context.run("get-transcript", async () => {
         const trackUrl = `https://stream.mux.com/${video.muxPlaybackId}/text/${video.muxTrackId}.txt`
         const response = await fetch(trackUrl);
-        const text = response.text();
+        const text = await response.text();
 
         if (!text) {
             throw new Error("Bad request!")
