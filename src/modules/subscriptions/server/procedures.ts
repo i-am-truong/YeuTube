@@ -12,7 +12,7 @@ export const subscriptionsRouter = createTRPCRouter({
             const { userId } = input;
 
             if (userId === ctx.user.id) {
-                throw new TRPCError({ code: "BAD_REQUEST" })
+                throw new TRPCError({ code: "BAD_REQUEST", message: "Cannot subscribe to yourself" })
             }
 
             const [createdSubscription] = await db
