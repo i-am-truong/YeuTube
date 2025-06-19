@@ -28,7 +28,7 @@ export const subscriptionsRouter = createTRPCRouter({
             const { userId } = input;
 
             if (userId === ctx.user.id) {
-                throw new TRPCError({ code: "BAD_REQUEST" })
+                throw new TRPCError({ code: "BAD_REQUEST", message: "Cannot unsubscribe from yourself" })
             }
 
             const [deletedSubscription] = await db
