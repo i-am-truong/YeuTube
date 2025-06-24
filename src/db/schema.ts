@@ -143,7 +143,7 @@ export const commentRelations = relations(comments, ({ one, many }) => ({
         references: [videos.id],
     }),
     parent: one(comments, {
-        fields: [comments.videoId],
+        fields: [comments.parentId],
         references: [comments.id],
         relationName: "comments_parent_id_fkey",
 
