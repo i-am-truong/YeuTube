@@ -11,7 +11,7 @@ export const videoReactionRouter = createTRPCRouter({
             const { videoId } = input;
             const { id: userId } = ctx.user;
 
-            const [existingVideoReactionLike] = await db
+            const [existingVideoReactionDislike] = await db
                 .select()
                 .from(videoReactions)
                 .where(
@@ -21,7 +21,7 @@ export const videoReactionRouter = createTRPCRouter({
                         eq(videoReactions.type, "like")
                     )
                 )
-            if (existingVideoReactionLike) {
+            if (existingVideoReactionDislike) {
                 const [deletedViewerReaction] = await db
                     .delete(videoReactions)
                     .where(
