@@ -35,7 +35,7 @@ const SuggestionsSectionSkeleton = () => {
           <VideoRowCardSkeleton key={index} size="compact" />
         ))}
       </div>
-      <div className="hidden md:hidden space-y-10">
+      <div className="block md:hidden space-y-10">
         {Array.from({ length: 6 }).map((_, index) => (
           <VideoGridCardSkeleton key={index} />
         ))}
