@@ -13,13 +13,17 @@ interface CategoriesSectionProps {
 export const CategoriesSection = ({ categoryId }: CategoriesSectionProps) => {
   return (
     <Suspense
-      fallback={<FilterCarousel isLoading data={[]} onSelect={() => {}} />}
+      fallback={<CategoriesSkeleton />}
     >
       <ErrorBoundary fallback={<p>Error...</p>}>
         <CategoriesSectionSuspense categoryId={categoryId} />
       </ErrorBoundary>
     </Suspense>
   );
+};
+
+const CategoriesSkeleton = () => {
+  return <FilterCarousel isLoading data={[]} onSelect={() => { }} />;
 };
 
 export const CategoriesSectionSuspense = ({
@@ -33,9 +37,6 @@ export const CategoriesSectionSuspense = ({
     label: categories.name,
   }));
 
-  const CategoriesSkeleton = () => {
-    return <FilterCarousel isLoading data={[]} onSelect={() => {}} />;
-  };
 
   const onSelect = (value: string | null) => {
     const url = new URL(window.location.href);

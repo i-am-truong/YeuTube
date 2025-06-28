@@ -8,8 +8,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { UserInfo } from "@/modules/users/ui/components/user-info";
 import { UserAvatar } from "@/components/user-avatar";
 import { VideoGetManyOutput } from "../../types";
-import { VideoThumbnail } from "./video-thumbnail";
+import { VideoThumbnail, VideoThumbnailSkeleton } from "./video-thumbnail";
 import { VideoMenu } from "./video-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const videoRowCardVariants = cva("group flex min-w-0", {
     variants: {
@@ -40,17 +41,41 @@ interface VideoRowCardProps extends VariantProps<typeof videoRowCardVariants> {
     onRemove?: () => void;
 }
 
-export const VideoRowCardSkeleton = () => {
+export const VideoRowCardSkeleton = ({ size = "default" }: VariantProps<typeof videoRowCardVariants>) => {
     return (
-        <div>
-            Skeleton
+        <div className={videoRowCardVariants({ size })}>
+            {/* Thumbnail Skeleton */}
+            <div className={thumbnailVariants({ size })}>
+                <VideoThumbnailSkeleton />
+            </div>
+
+            {/*Info skeleton */}
+            <div className="flex-1 min-w-0">
+                <div className="flex justify-between gap-x-2">
+                    <div className="flex-1 min-w-0">
+                        <Skeleton className={cn("h-5 w-[40%]", size === "compact" && "h-4 w-[40%]")} />
+                        {size === "default" && (
+                            <>
+                                <Skeleton className="h-4 w-[20%] mt-1" />
+                                <div className="flex items-center gap-2 my-3">
+                                    <Skeleton className="size-8 rounded-full" />
+                                    <Skeleton className="h-4 w-24" />
+                                </div>
+                            </>
+                        )}
+                        {size === "compact" && (
+                            <Skeleton className="h-4 w-[50%] mt-1" />
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
 
 export const VideoRowCard = ({
     data,
-    size,
+    size = "default",
     onRemove,
 }: VideoRowCardProps) => {
     const compactViews = useMemo(() => {
@@ -68,10 +93,9 @@ export const VideoRowCard = ({
             <Link href={`/watch/${data.id}`} className={thumbnailVariants({ size })}>
                 <VideoThumbnail imageUrl={data.thumbnailUrl} previewUrl={data.previewUrl} title={data.title} duration={data.duration} />
             </Link>
-
             <div className="flex-1 min-w-0">
                 <div className="flex justify-between gap-x-2">
-                    <Link href={`/videos/${data.id}`} className="flex-1 mx-w-0">
+                    <Link href={`/videos/${data.id}`} className="flex-1 min-w-0">
                         <h3 className={cn(
                             "font-medium line-clamp-2",
                             size === "compact" ? "text-sm" : "text-base",
@@ -91,7 +115,7 @@ export const VideoRowCard = ({
                                 </div>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <p className="text-xs text-muted-foreground w-fit line-champ-2">
+                                        <p className="text-xs text-muted-foreground w-fit line-clamp-2">
                                             {data.description || "No description available."}
                                         </p>
                                     </TooltipTrigger>
@@ -109,10 +133,10 @@ export const VideoRowCard = ({
                                 {compactViews} views • {compactLikes} likes
                             </p>
                         )}
-                        <div className="flex-none">
-                            <VideoMenu videoId={data.id} onRemove={onRemove} />
-                        </div>
                     </Link>
+                    <div className="flex-none">
+                        <VideoMenu videoId={data.id} onRemove={onRemove} />
+                    </div>
                 </div>
             </div>
         </div>
