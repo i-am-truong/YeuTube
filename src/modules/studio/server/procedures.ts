@@ -48,7 +48,7 @@ export const studioRouter = createTRPCRouter({
         .select({
           ...getTableColumns(videos),
           viewCount: db.$count(videoViews, eq(videoViews.videoId, videos.id)),
-          commentCount: db.$count(comments, eq(comments.id, videos.id)),
+          commentCount: db.$count(comments, eq(comments.videoId, videos.id)),
           likeCount: db.$count(
             videoReactions,
             and(
