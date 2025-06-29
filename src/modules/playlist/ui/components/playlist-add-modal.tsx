@@ -41,7 +41,7 @@ export const PlaylistAddModal = ({
 
   const removeVideo = trpc.playlists.removeVideo.useMutation({
     onSuccess: (data) => {
-      toast.success("Video added to playlist successfully");
+      toast.success("Video removed from playlist successfully");
       utils.playlists.getMany.invalidate();
       utils.playlists.getManyForVideo.invalidate({ videoId });
       utils.playlists.getOne.invalidate({ id: data.playlistId });
