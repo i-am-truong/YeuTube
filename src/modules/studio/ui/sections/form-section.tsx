@@ -456,7 +456,7 @@ const FormSectionSuspense = ({ videoId }: FormSectionProps) => {
                         <p className="text-muted-foreground text-xs">
                           Video Link
                         </p>
-                        <Link href={`/videos/${video.id}`} target="_blank">
+                        <Link prefetch href={`/videos/${video.id}`} target="_blank">
                           <p className="line-clamp-1 text-sm text-blue-500 hover:underline break-all">
                             {fullUrl}
                           </p>
