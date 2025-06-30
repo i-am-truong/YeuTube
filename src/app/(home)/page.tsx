@@ -5,10 +5,12 @@ import { trpc, HydrateClient } from "@/trpc/server";
 export const dynamic = "force-dynamic";
 
 interface PageProps {
-  searchParams: { categoryId?: string };
+  searchParams: Promise<{ categoryId?: string }>;
 }
 
 const Page = async ({ searchParams }: PageProps) => {
+  const { categoryId } = await searchParams;
+
   void trpc.categories.getMany.prefetch();
   void trpc.videos.getManyTrending.prefetchInfinite({
     limit: DEFAULT_LIMIT
@@ -16,7 +18,7 @@ const Page = async ({ searchParams }: PageProps) => {
 
   return (
     <HydrateClient>
-      <HomeView categoryId={searchParams.categoryId} />
+      <HomeView categoryId={categoryId} />
     </HydrateClient>
   );
 };
